@@ -4,7 +4,7 @@ import { getHotelSettings } from "@/lib/hotel-settings";
 import { Hotel, LogIn, Menu } from "lucide-react";
 
 export async function SiteNav() {
-  const [session, settings] = await Promise.all([auth(), getHotelSettings()]);
+  const [session, settings] = await Promise.all([auth().catch(() => null), getHotelSettings()]);
   return (
     <header className="sticky top-0 z-40 border-b bg-ivory/90 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
