@@ -4,9 +4,10 @@ import { connectDb } from "@/lib/db";
 import Room from "@/models/Room";
 
 export default async function BookPage({ params }: { params: Promise<{ roomId: string }> }) {
-  await connectDb();
   const { roomId } = await params;
-  const room = await Room.findById(roomId).lean();
+  const room = await connectDb()
+    .then(() => Room.findById(roomId).lean())
+    .catch(() => null);
   if (!room) notFound();
   return (
     <main className="mx-auto max-w-4xl px-4 py-12">

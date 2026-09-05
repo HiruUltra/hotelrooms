@@ -18,9 +18,11 @@ export async function connectDb() {
   if (!env.MONGODB_URI) {
     throw new Error("MONGODB_URI is required for database operations.");
   }
-  cached.promise ??= mongoose.connect(env.MONGODB_URI, {
-    dbName: "serenestay"
-  });
+  cached.promise ??= mongoose.connect(env.MONGODB_URI);
   cached.conn = await cached.promise;
   return cached.conn;
+}
+
+export function hasDatabaseConfig() {
+  return Boolean(env.MONGODB_URI);
 }

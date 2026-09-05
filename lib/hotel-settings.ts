@@ -22,7 +22,11 @@ export const defaultHotelSettings = {
 
 export async function getHotelSettings() {
   if (!env.MONGODB_URI) return defaultHotelSettings;
-  await connectDb();
-  const existing = await HotelSettings.findOne().lean();
-  return existing ?? defaultHotelSettings;
+  try {
+    await connectDb();
+    const existing = await HotelSettings.findOne().lean();
+    return existing ?? defaultHotelSettings;
+  } catch {
+    return defaultHotelSettings;
+  }
 }

@@ -5,8 +5,9 @@ import Room from "@/models/Room";
 
 export default async function RoomsPage() {
   const settings = await getHotelSettings();
-  await connectDb();
-  const rooms = await Room.find({ isActive: true }).sort({ pricePerNight: 1 }).lean();
+  const rooms = await connectDb()
+    .then(() => Room.find({ isActive: true }).sort({ pricePerNight: 1 }).lean())
+    .catch(() => []);
   return (
     <main className="mx-auto max-w-7xl px-4 py-12">
       <h1 className="font-serif text-5xl font-bold">Rooms</h1>

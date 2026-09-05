@@ -7,9 +7,10 @@ import { formatMoney } from "@/lib/utils";
 import Room from "@/models/Room";
 
 export default async function RoomDetailsPage({ params }: { params: Promise<{ id: string }> }) {
-  await connectDb();
   const { id } = await params;
-  const room = await Room.findById(id).lean();
+  const room = await connectDb()
+    .then(() => Room.findById(id).lean())
+    .catch(() => null);
   if (!room) notFound();
   return (
     <main className="mx-auto max-w-7xl px-4 py-12">
